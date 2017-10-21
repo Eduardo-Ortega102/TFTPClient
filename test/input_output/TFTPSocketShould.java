@@ -27,11 +27,7 @@ public class TFTPSocketShould {
     public void setUp() throws Exception {
         packetBuilder = new PacketBuilder();
         datagramSocket = mock(DatagramSocket.class);
-        socket = new TFTPSocket();
-        Field field = TFTPSocket.class.getDeclaredField("datagramSocket");
-        field.setAccessible(true);
-        field.set(socket, datagramSocket);
-        field.setAccessible(false);
+        socket = new TFTPSocket(datagramSocket);
     }
 
     @Test

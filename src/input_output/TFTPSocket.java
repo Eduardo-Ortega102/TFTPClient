@@ -11,8 +11,8 @@ public class TFTPSocket {
 
     private final DatagramSocket datagramSocket;
 
-    public TFTPSocket() throws SocketException {
-        this.datagramSocket = new DatagramSocket();
+    public TFTPSocket(DatagramSocket datagramSocket) throws SocketException {
+        this.datagramSocket = datagramSocket;
     }
 
     public void send(Packet packet) throws IOException {
