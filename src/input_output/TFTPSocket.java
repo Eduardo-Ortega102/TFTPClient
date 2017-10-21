@@ -5,13 +5,14 @@ import packets.Packet;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 
 public class TFTPSocket {
 
     private final DatagramSocket datagramSocket;
 
-    public TFTPSocket(DatagramSocket datagramSocket) {
-        this.datagramSocket = datagramSocket;
+    public TFTPSocket() throws SocketException {
+        this.datagramSocket = new DatagramSocket();
     }
 
     public void send(Packet packet) throws IOException {

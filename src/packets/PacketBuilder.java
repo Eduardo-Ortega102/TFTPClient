@@ -1,6 +1,4 @@
-package packets.builder;
-
-import packets.*;
+package packets;
 
 import java.net.InetAddress;
 

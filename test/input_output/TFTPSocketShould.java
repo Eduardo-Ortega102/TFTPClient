@@ -1,11 +1,12 @@
+package input_output;
 
-import input_output.TFTPSocket;
 import org.junit.Before;
 import org.junit.Test;
 import packets.Acknowledge;
 import packets.Packet;
-import packets.builder.PacketBuilder;
+import packets.PacketBuilder;
 
+import java.lang.reflect.Field;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -24,9 +25,13 @@ public class TFTPSocketShould {
 
     @Before
     public void setUp() throws Exception {
-        datagramSocket = mock(DatagramSocket.class);
-        socket = new TFTPSocket(datagramSocket);
         packetBuilder = new PacketBuilder();
+        datagramSocket = mock(DatagramSocket.class);
+        socket = new TFTPSocket();
+        Field field = TFTPSocket.class.getDeclaredField("datagramSocket");
+        field.setAccessible(true);
+        field.set(socket, datagramSocket);
+        field.setAccessible(false);
     }
 
     @Test

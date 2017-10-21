@@ -2,7 +2,6 @@ package packets;
 
 import org.junit.Before;
 import org.junit.Test;
-import packets.builder.PacketBuilder;
 
 import java.net.InetAddress;
 import java.util.Random;
