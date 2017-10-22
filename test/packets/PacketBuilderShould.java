@@ -6,10 +6,9 @@ import org.junit.Test;
 import java.net.InetAddress;
 import java.util.Random;
 
+import static input_output.DigitalUnit.ONE_BYTE;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 public class PacketBuilderShould {
@@ -133,7 +132,7 @@ public class PacketBuilderShould {
 
     @Test
     public void create_a_data_packet() throws Exception {
-        final int dataStreamLength = 512;
+        final int dataStreamLength = ONE_BYTE.times(512);
         final int packetLength = dataStreamLength + 4;
         final byte[] dataStream = getBytes(dataStreamLength);
         final byte[] blockNumber = new byte[]{110, 32};
@@ -159,7 +158,7 @@ public class PacketBuilderShould {
 
     @Test
     public void not_create_a_packet_longer_than_516_elements() throws Exception {
-        final int dataStreamLength = 513;
+        final int dataStreamLength = ONE_BYTE.times(513);
         assertThatExceptionOfType(InstantiationException.class)
                 .isThrownBy(() -> packetBuilder
                         .withServer(serverAddress)
