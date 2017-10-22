@@ -4,24 +4,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static input_output.DigitalUnit.MEGABYTE;
+import static input_output.DigitalUnit.ONE_MEGABYTE;
 
 public class FileRecorder {
-    public static final int BUFFER_LENGTH = MEGABYTE.value();
     private final String filePath;
     private final ByteArrayOutputStream buffer;
     private long amountOfBytes;
 
     public FileRecorder(String storagePath, String filename) {
         this.filePath = storagePath + filename;
-        buffer = new ByteArrayOutputStream(BUFFER_LENGTH);
+        buffer = new ByteArrayOutputStream(ONE_MEGABYTE.value());
         amountOfBytes = 0;
     }
 
     public void receive(byte[] data) throws IOException {
         buffer.write(data);
         amountOfBytes += data.length;
-        if (buffer.size() > BUFFER_LENGTH) store();
+        if (buffer.size() > ONE_MEGABYTE.value()) store();
     }
 
     public long countOfBytes() {

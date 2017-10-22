@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.io.File;
 import java.time.Instant;
 
-import static input_output.FileRecorder.BUFFER_LENGTH;
+import static input_output.DigitalUnit.ONE_MEGABYTE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -57,7 +57,7 @@ public class FileRecorderShould {
     @Test
     public void store_all_bytes_when_buffer_is_full() throws Exception {
         final byte[] data = data("Hello, this text is going to be repeated a lot of times inside the file =D \n");
-        for (int i = 0; i <= BUFFER_LENGTH / data.length; i++) fileRecorder.receive(data);
+        for (int i = 0; i <= ONE_MEGABYTE.value() / data.length; i++) fileRecorder.receive(data);
         File file = new File(storagePath + filename);
         assertThat(file.exists(), is(true));
         assertThat(file.length(), is(fileRecorder.countOfBytes()));
