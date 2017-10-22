@@ -30,7 +30,6 @@ public class FileRecorder {
     }
 
     public void store() throws IOException {
-        if (buffer.size() == 0) return;
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(filePath);

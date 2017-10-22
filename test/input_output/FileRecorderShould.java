@@ -1,5 +1,6 @@
 package input_output;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +25,12 @@ public class FileRecorderShould {
         fileRecorder = new FileRecorder(storagePath, filename);
     }
 
+    @After
+    public void tearDown() throws Exception {
+        File file = new File(storagePath + filename);
+        if (file.exists()) file.delete();
+    }
+
     @Test
     public void count_the_amount_of_bytes_received() throws Exception {
         final byte[] data1 = data("Hello World!\n");
@@ -35,11 +42,11 @@ public class FileRecorderShould {
     }
 
     @Test
-    public void not_store_when_buffer_is_empty() throws Exception {
+    public void store_when_is_empty() throws Exception {
         final long expectedCount = 0;
         fileRecorder.store();
         assertThat(fileRecorder.countOfBytes(), is(expectedCount));
-        assertThat(new File(storagePath + filename).exists(), is(false));
+        assertThat(new File(storagePath + filename).exists(), is(true));
     }
 
     @Test
@@ -49,19 +56,16 @@ public class FileRecorderShould {
         fileRecorder.receive(data1);
         fileRecorder.receive(data2);
         fileRecorder.store();
-        File file = new File(storagePath + filename);
-        assertThat(file.exists(), is(true));
-        file.delete();
+        assertThat(new File(storagePath + filename).exists(), is(true));
     }
 
     @Test
-    public void store_all_bytes_when_buffer_is_full() throws Exception {
+    public void store_all_bytes_when_is_full() throws Exception {
         final byte[] data = data("Hello, this text is going to be repeated a lot of times inside the file =D \n");
         for (int i = 0; i <= ONE_MEGABYTE.value() / data.length; i++) fileRecorder.receive(data);
         File file = new File(storagePath + filename);
         assertThat(file.exists(), is(true));
         assertThat(file.length(), is(fileRecorder.countOfBytes()));
-        file.delete();
     }
 
     private byte[] data(String data) {
