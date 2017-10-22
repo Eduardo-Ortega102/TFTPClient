@@ -1,10 +1,12 @@
 package packets;
 
+import input_output.DigitalUnit;
+
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
 public class Packet {
-    public static final int MAXIMUM_LENGTH = 516;
+    public static final int MAXIMUM_LENGTH = DigitalUnit.BYTE.times(516);
     public static final byte NULL_BYTE = 0;
     protected final int length;
     protected DatagramPacket datagramPacket;

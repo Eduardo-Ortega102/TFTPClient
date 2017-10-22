@@ -1,33 +1,40 @@
 package input_output;
 
-import packets.DataPacket;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import java.io.*;
+import static input_output.DigitalUnit.MEGABYTE;
 
 public class FileRecorder {
-    private final String filename;
-    private final String storagePath;
-    private final ByteArrayOutputStream stream;
+    public static final int BUFFER_LENGTH = MEGABYTE.value();
+    private final String filePath;
+    private final ByteArrayOutputStream buffer;
+    private long amountOfBytes;
 
     public FileRecorder(String storagePath, String filename) {
-        this.storagePath = storagePath;
-        this.filename = filename;
-        stream = new ByteArrayOutputStream();
+        this.filePath = storagePath + filename;
+        buffer = new ByteArrayOutputStream(BUFFER_LENGTH);
+        amountOfBytes = 0;
     }
 
-    public void receive(DataPacket packet) throws IOException {
-        stream.write(packet.getDataStream());
+    public void receive(byte[] data) throws IOException {
+        buffer.write(data);
+        amountOfBytes += data.length;
+        if (buffer.size() > BUFFER_LENGTH) store();
     }
 
-    public int amountOfBytes() {
-        return stream.size();
+    public long countOfBytes() {
+        return amountOfBytes;
     }
 
     public void store() throws IOException {
+        if (buffer.size() == 0) return;
         FileOutputStream fileOutputStream = null;
         try {
-            fileOutputStream = new FileOutputStream(storagePath + filename);
-            fileOutputStream.write(stream.toByteArray());
+            fileOutputStream = new FileOutputStream(filePath);
+            fileOutputStream.write(buffer.toByteArray());
+            buffer.reset();
         } finally {
             fileOutputStream.close();
         }
