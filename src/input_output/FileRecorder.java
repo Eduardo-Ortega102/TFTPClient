@@ -9,18 +9,20 @@ import static input_output.DigitalUnit.ONE_MEGABYTE;
 public class FileRecorder {
     private final String filePath;
     private final ByteArrayOutputStream buffer;
+    private final int maximum_size;
     private long amountOfBytes;
 
     public FileRecorder(String storagePath, String filename) {
         this.filePath = storagePath + filename;
-        buffer = new ByteArrayOutputStream(ONE_MEGABYTE.value());
+        maximum_size = ONE_MEGABYTE.value();
+        buffer = new ByteArrayOutputStream(maximum_size);
         amountOfBytes = 0;
     }
 
     public void receive(byte[] data) throws IOException {
         buffer.write(data);
         amountOfBytes += data.length;
-        if (buffer.size() > ONE_MEGABYTE.value()) store();
+        if (buffer.size() >= maximum_size) store();
     }
 
     public long countOfBytes() {
