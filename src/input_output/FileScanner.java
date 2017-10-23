@@ -39,17 +39,17 @@ public class FileScanner {
         return block;
     }
 
+    private byte[] shrink(byte[] block, int length) {
+        return Arrays.copyOfRange(block, 0, length);
+    }
+
     private void handleClose() throws IOException {
         fileInputStream.close();
         streamIsClosed = true;
     }
 
-    private byte[] shrink(byte[] block, int length) {
-        return Arrays.copyOfRange(block, 0, length);
-    }
-
     public byte[] readBlock() throws IOException {
-        if (buffer.available() < block_size) fillBuffer();
+        if (buffer.available() == 0) fillBuffer();
         byte[] block = getBytes(block_size, buffer);
         this.readedBytes += block.length;
         return block;
