@@ -31,17 +31,17 @@ public class FileScanner {
         else buffer = new ByteArrayInputStream(bytes);
     }
 
-    private void handleClose() throws IOException {
-        fileInputStream.close();
-        streamIsClosed = true;
-    }
-
     private byte[] getBytes(int amountOfData, InputStream dataSource) throws IOException {
         byte[] block = new byte[amountOfData];
         int readedBytes = dataSource.read(block);
         if (readedBytes == -1) return new byte[0];
         if (readedBytes < amountOfData) block = shrink(block, readedBytes);
         return block;
+    }
+
+    private void handleClose() throws IOException {
+        fileInputStream.close();
+        streamIsClosed = true;
     }
 
     private byte[] shrink(byte[] block, int length) {
