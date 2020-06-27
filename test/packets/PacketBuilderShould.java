@@ -9,7 +9,7 @@ import java.util.Random;
 import static input_output.DigitalUnit.BYTE;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PacketBuilderShould {
 
